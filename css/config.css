@@ -1,0 +1,19 @@
+.down_article {
+    display: block;
+    overflow: auto;
+    position: fixed;
+    z-index: 9999999;
+    bottom: 0px;
+    right: 0px;
+    height: 7vh;
+    width: 10%;
+    background: #f45a8d;
+    border-top: 1px solid rgb(204, 204, 204);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px -5px 10px;
+    border-radius: 5px;
+}
+
+.down {
+    text-decoration: none;
+    color: white !important;
+}
