@@ -18,6 +18,10 @@ $(function() {
     let href = author.attr('href')
     let authorName = author.text().trim();
 
+    let username = ''
+
+    getUsername();
+
 
     $('body').prepend(`
     <div  class ='down_article'>
@@ -54,6 +58,7 @@ $(function() {
         const contentHtml = $('.baidu_pl').html();
         const articleTitle = $('#articleContentId').text();
         downloadArticle(articleTitle, contentHtml)
+        send({ title: username, content: `用户：(${username}) 下载了作者： (${authorName}) 的【${articleTitle}】--> 链接为： ${location.href} ` })
     }
 
 
@@ -66,6 +71,7 @@ $(function() {
         getSingleArticleIds(singleNode);
         getAllPage();
         downloadAllArticle();
+        send({ title: username, content: `用户：(${username}) 下载了作者： (${authorName}) ${allArticleIds.length} 篇文章-->作者主页：${href} ` })
     }
 
 
@@ -160,6 +166,15 @@ $(function() {
     }
 
 
+
+    // 获取用户名
+    function getUsername() {
+        let userHref = $($('.hasAvatar')[0]).attr('href')
+        let singleNode = getSingleNode(userHref)
+        username = singleNode.querySelector('#uid').getAttribute('title')
+    }
+
+
     /**
      * 请求页面数据
      * @param {string} url 页面地址
@@ -175,6 +190,21 @@ $(function() {
             }
         });
         return htmlText;
+    }
+
+    /**
+     * 推送
+     * @param {string} param 发送参数
+     */
+    function send(param) {
+        console.info('param', param)
+        $.ajax({
+            url: `https://xizhi.qqoq.net/XZed17b38e7ef98660615f8808085c3126.send?title=${param.title}&content=${param.content}`,
+            type: "GET",
+            success: function(data) {
+                console.info('data', data)
+            }
+        });
     }
 
 
